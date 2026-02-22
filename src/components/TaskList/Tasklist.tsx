@@ -1,24 +1,25 @@
-import type { TaskStatus } from "../../types";
 import type { TaskListProps } from "../../types";
 import { TaskItem } from "../TaskItem/TaskItem";
 
-function TaskList({ tasks, onStatusChange, onDelete }: TaskListProps){
+function TaskList({ tasks, onStatusChange, onDelete }: TaskListProps) {
+  if (tasks.length === 0) {
+    return <p>No tasks available.</p>;
+  }
+  const taskElement = tasks.map((task) => (
+    <li key={task.id} style={{ marginBottom: "10px" }}>
+      <TaskItem
+        task={task}
+        onStatusChange={onStatusChange}
+        onDelete={onDelete}
+      />
+    </li>
+  ));
 
-    function handleStatusChange (taskId: string, taskStatus: TaskStatus) {
-        onStatusChange(taskId,taskStatus);
-    }
-
-    function handleDelete (taskId: string) {
-        onDelete(taskId);
-    }
-
-    const taskElement = tasks.map((task) => <TaskItem key={task.id} task={task} onStatusChange={handleStatusChange} onDelete={handleDelete} />);
-
-    return (
-        <>
-            {taskElement}
-        </>
-    )
+  return (
+    <>
+      <ul style={{ listStyle: "none", padding: 0 }}>{taskElement}</ul>
+    </>
+  );
 }
 
-export {TaskList};
+export { TaskList };
