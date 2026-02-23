@@ -20,7 +20,7 @@ function TaskItem({ task, onStatusChange, onDelete }: TaskItemProps){
                         <p>{task.description}</p>
                     </div>
                     <div>
-                        <select defaultValue={task.status} onChange={(e)=>handleStatusChange(e)}>
+                        <select value={task.status} onChange={(e)=>handleStatusChange(e)}>
                             <option value="pending">Pending</option>
                             <option value="in-progress">In Progress</option>
                             <option value="completed">Completed</option>

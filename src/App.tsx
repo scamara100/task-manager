@@ -1,4 +1,5 @@
 import "./App.css";
+import TaskFilter from "./components/TaskFilter/TaskFilter";
 import { TaskList } from "./components/TaskList/Tasklist";
 import type { Task, TaskStatus } from "./types";
 import { useState } from "react";
@@ -32,6 +33,8 @@ const tasks: Task[] = [
 
 function App() {
   const [taskList, setTaskList] = useState<Task[]>(tasks);
+  const [filter, setFilter] = useState<{status?: TaskStatus, priority?:  "low" | "medium" | "high"}>({})
+
   function handleDelete(taksId: string) {
     setTaskList((prevTasks) => prevTasks.filter((task) => task.id !== taksId));
   }
@@ -43,10 +46,17 @@ function App() {
       )
     );
   }
+  const filterTasks = taskList.filter((task) => {
+    if (filter.status && task.status !== filter.status) return false
+    if (filter.priority && task.priority !== filter.priority) return false
+    return true
+  })
+
   return (
     <>
+      <TaskFilter onFilterChange={setFilter}/>
       <TaskList
-        tasks={taskList}
+        tasks={filterTasks}
         onStatusChange={handleStatusChange}
         onDelete={handleDelete}
       />
